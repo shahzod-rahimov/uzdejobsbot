@@ -2,6 +2,8 @@ import { User } from '../models/user.model.js'
 import { bot } from '../core/bot.js'
 import { Composer, Markup } from 'telegraf'
 import { getMenuRus, getMenuUzb, inlineMenuElonBerish, inlineMenuElonBerishRus } from '../libs/menu_elon.js'
+import { getLang } from '../libs/lang.js'
+import { keyboards } from '../libs/keyboards.js'
 
 const composer = new Composer()
 
@@ -63,6 +65,21 @@ composer.hears('🆕 Добавить новое объявление', async (c
   })
   getMenuRus(ctx)
   await inlineMenuElonBerishRus(ctx, `<b>Выберите нужный раздел, чтобы добавить новую объявлению:</b>`)
+})
+
+composer.action('andoza', async (ctx) => {
+  const lang = await getLang(String(ctx?.from?.id))
+  if (lang === 'UZB') {
+    await ctx.editMessageText('<b>Kerakli andozani tanlang:</b>', {
+      parse_mode: 'HTML',
+      ...keyboards['inline_andoza'],
+    })
+  } else {
+    await ctx.editMessageText('<b>Выберите нужный шаблон:</b>', {
+      parse_mode: 'HTML',
+      ...keyboards['inline_andoza_rus'],
+    })
+  }
 })
 
 bot.use(composer.middleware())
