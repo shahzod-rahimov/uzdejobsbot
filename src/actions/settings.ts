@@ -12,7 +12,7 @@ composer.hears('Tilni tanlash', async (ctx) => {
   await selectLang(ctx)
 })
 
-composer.hears('Выберите язык', async (ctx) => {
+composer.hears('☸️ Выбор языка', async (ctx) => {
   await selectLang(ctx)
 })
 
