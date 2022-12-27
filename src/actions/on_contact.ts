@@ -1,9 +1,9 @@
 import { User } from '../models/user.model.js'
 import { bot } from '../core/bot.js'
 import { Composer, Markup } from 'telegraf'
-import { getLang } from '../libs/lang.js'
-import { getMenuRus, getMenuUzb } from '../libs/menu_elon.js'
 
+import { getLang } from '../libs/lang.js'
+import { menu_elon_rus, menu_elon_uzb } from '../libs/menu_elon.js'
 const composer = new Composer()
 
 composer.on('contact', async (ctx) => {
@@ -12,11 +12,12 @@ composer.on('contact', async (ctx) => {
 
   if (lang === 'UZB') {
     if (ctx.message.contact.user_id !== ctx.from.id) {
-      await ctx.reply("O'zingizni telefon raqamingizni kiriting")
-
-      await ctx.reply(`Iltimos, <b>"Telefon raqimini yuborish"</b> tugmasini bosing! 👇`, {
+      await ctx.reply("O'zingizni telefon raqamingizni kiriting", {
         parse_mode: 'HTML',
-        ...Markup.keyboard([[Markup.button.contactRequest('📱 Telefon raqamini yuborish'), '🏠 Bosh sahifa']])
+      })
+      await ctx.reply(`Iltimos, <b>"Telefon raqamni yuborish"</b> tugmasini bosing! `, {
+        parse_mode: 'HTML',
+        ...Markup.keyboard([[Markup.button.contactRequest('📱 Telefon raqamni yuborish'), '🏠 Bosh sahifa']])
           .oneTime()
           .resize(),
       })
@@ -24,11 +25,10 @@ composer.on('contact', async (ctx) => {
       const user_id = ctx.from.id
       const user = await User.findOne({ where: { user_id: `${user_id}` } })
       if (!user) {
-        await ctx.reply('👉 /start')
+        await ctx.reply(`👉 /start`)
       } else {
         await user.update({ phone_number: contact })
-
-        getMenuUzb(ctx)
+        menu_elon_uzb(ctx)
       }
     }
   } else {
@@ -50,7 +50,7 @@ composer.on('contact', async (ctx) => {
       } else {
         await user.update({ phone_number: contact })
 
-        getMenuRus(ctx)
+        menu_elon_rus(ctx)
       }
     }
   }

@@ -1,6 +1,5 @@
-import { DataTypes } from 'sequelize'
 import { sequelize } from '../core/db.js'
-
+import { DataTypes } from 'sequelize'
 export const User = sequelize.define('user', {
   id: {
     type: DataTypes.INTEGER,

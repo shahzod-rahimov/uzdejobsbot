@@ -2,7 +2,7 @@ import { sequelize } from '../core/db.js'
 import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize'
 
 interface AdsModel extends Model<InferAttributes<AdsModel>, InferCreationAttributes<AdsModel>> {
-  id?: CreationOptional<number>
+  id: CreationOptional<number>
   user_id?: string
   category?: string
   post_id?: string
